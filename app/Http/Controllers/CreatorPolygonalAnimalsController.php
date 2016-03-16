@@ -116,8 +116,24 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($creatorId, $animalId)
 	{
-		//
+		$creator = Creator::find($creatorId);
+		
+		if(!$creator)
+		{
+			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+		}
+
+		$animal = $creator->polygonalanimals->find($animalId);
+
+		if(!$animal)
+		{
+			return response()->json(['message' => 'Cet animal n\'existe pas', 'code' => 404], 404);
+		}
+
+		$animal->delete();
+
+		return response()->json(['message' => 'L\'animal a été supprimé'], 200);
 	}
 }

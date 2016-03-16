@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Creator;
+use App\PolygonalAnimal;
 
 use App\Http\Requests\CreateCreatorRequest;
 
@@ -97,6 +98,29 @@ class CreatorController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		
+		//Le variable creator définit le creator identifié par l'id entré dans l'URL
+		$creator = Creator::find($id);
+		
+		//S'il n'est pas trouvé alors un message d'erreur 404 est renvoyé
+		if(!$creator)
+		{
+			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+		}
+
+		$animals = $creator->polygonalanimals;
+
+		if(sizeof($animals) > 0){
+
+			//Le code d'erreur 409 signifie qu'une restriction empêche l'aboutissement de la requête
+			return response()->json(['message' => 'Ce Creator a des animaux associés. Veuillez les supprimez avant', 'code' => 409], 409);
+
+		}
+
+		$creator->delete();
+
+		//Un message 200 qui signifie que la requête a fonctionné est renvoyé
+		return response()->json(['message' => 'Le creator a été supprimé'], 200);
+
 	}
 }
