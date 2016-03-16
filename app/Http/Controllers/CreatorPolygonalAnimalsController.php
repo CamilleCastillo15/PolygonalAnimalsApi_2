@@ -16,6 +16,8 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
+	//Cette fonction retourne tous les animaux associé à un creator
 	public function index($id)
 	{
 		$creator = Creator::find($id);
@@ -31,10 +33,13 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
+	//Cette fonction permet de créer des animaux, il faut cependant spécifier en premier l'id de son Creator, car une entrée de la table polygonalanimals dépend de creators. 
 	public function store(CreateAnimalRequest $request, $creatorId)
 	{
 		$creator = Creator::find($creatorId);
 
+		//Si le creator identifié par son id n'existe pas, il ne sera pas possible de créer un animal
 		if(!$creator)
 		{
 			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
@@ -42,6 +47,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 
 		$values = $request->all();
 
+		//On se sert de la fonction polygonalanimals() du model de Creator pour créer un animal qui dépendera d'un creator
 		$creator->polygonalanimals()->create($values);
 
 		return response()->json(['message' => 'L\'animal associe a été crée'], 201);
@@ -52,6 +58,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	//Cette fonction permet de renvoyer les données d'un animal spécifique associé à un creator
 	public function show($id, $animalId)
 	{
 		$creator = Creator::find($id);
@@ -76,9 +83,32 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+
+	//Une fonction permettant de mettre à jour une entrée de la table polygonalanimals, qui doit possèder comme paramètres la requête, l'id du creator et celui d'un de ses animaux associés
+	public function update(CreateAnimalRequest $request, $creatorId, $animalId)
 	{
-		//
+		$creator = Creator::find($creatorId);
+
+		if(!$creator)
+		{
+			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+		}
+
+		$animal = $creator->polygonalanimals->find($animalId);
+
+		if(!$animal)
+		{
+			return response()->json(['message' => 'Cet animal n\'existe pas', 'code' => 404], 404);
+		}
+		$color = $request->get('color');
+		$price = $request->get('price');
+
+		$animal->color = $color;
+		$animal->price = $price;
+
+		$animal->save();
+
+		return response()->json(['message' => 'L\'animal a été mis à jour'], 200);
 	}
 	/**
 	 * Remove the specified resource from storage.

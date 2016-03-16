@@ -22,6 +22,7 @@ class PolygonalAnimalsSeed extends Seeder
 		{
 			PolygonalAnimal::create
 			([
+				//Faker peut aussi générer des couleurs
 				'color' => $faker->safeColorName(),
 				'price' => $faker->randomFloat(),
 				'creator_id' => $faker->numberBetween(1,5)

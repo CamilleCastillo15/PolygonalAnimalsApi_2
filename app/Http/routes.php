@@ -10,6 +10,8 @@
 |
 */
 
+//Des routes relient des adresses URLS à des controllers, tout en spécifiant les méthodes autorisés ou interdites
+
 Route::resource('creators', 'CreatorController', ['except' => ['create', 'edit']]);
 Route::resource('polygonalanimals', 'PolygonalAnimalController', ['only' => ['index']]);
 Route::resource('creators.polygonalanimals', 'CreatorPolygonalAnimalsController', ['except' => ['edit', 'create']]);
