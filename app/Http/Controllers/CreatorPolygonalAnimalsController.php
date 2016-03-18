@@ -17,6 +17,12 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 * @return Response
 	 */
 
+	public function __construct(){
+
+		$this->middleware('auth.basis.once', ['except' => ['index', 'show']]);
+
+	}
+
 	//Cette fonction retourne tous les animaux associé à un creator
 	public function index($id)
 	{

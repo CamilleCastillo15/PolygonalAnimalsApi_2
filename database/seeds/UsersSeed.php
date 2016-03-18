@@ -7,7 +7,7 @@ use App\Creator;
 use App\User;
 
 //Cette classe sera lancée quand la  commande php artisan db:seed sera entrée dans le terminal
-class DatabaseSeeder extends Seeder {
+class UsersSeed extends Seeder {
 	/**
 	 * Run the database seeds.
 	 *
@@ -15,16 +15,11 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+		User::create([
 
-		Creator::truncate();
-		User::truncate();
+				'email' => 'fake@fake.com',
+				'password' => Hash::make('pass')
 
-		Model::unguard();
-
-		//Deux autres classes vont être appelées
-		$this->call('CreatorSeed');
-		$this->call('PolygonalAnimalsSeed');
-		$this->call('UsersSeed');
+			]);
 	}
 }

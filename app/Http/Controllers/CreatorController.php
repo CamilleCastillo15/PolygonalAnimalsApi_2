@@ -11,6 +11,13 @@ use App\PolygonalAnimal;
 use App\Http\Requests\CreateCreatorRequest;
 
 class CreatorController extends Controller {
+
+	public function __construct(){
+
+		$this->middleware('auth.basis.once', ['except' => ['index', 'show']]);
+
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
