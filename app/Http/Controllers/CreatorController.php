@@ -40,11 +40,13 @@ class CreatorController extends Controller {
 	//Cette fonction permet de créer des Creators
 	public function store(CreateCreatorRequest $request)
 	{
-		$values = $request->only(['name', 'phone']);
+		/*$values = $request->only(['name', 'phone']);
 
 		Creator::create($values);
 
-		return response()->json(['message' => 'Creator ajoute'], 201);
+		return response()->json(['message' => 'Creator ajoute'], 201);*/
+
+		return response()->json(['message' => 'Creator created.'], 201);
 	}
 	/**
 	 * Display the specified resource.
@@ -59,7 +61,7 @@ class CreatorController extends Controller {
 		
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist.', 'code' => 404], 404);
 		}
 		return response()->json(['data' => $creator], 200);
 	}
@@ -79,7 +81,7 @@ class CreatorController extends Controller {
 		//S'il n'est pas trouvé alors un message d'erreur 404 est renvoyé
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist.', 'code' => 404], 404);
 		}
 
 		//Les variables name et phone représentent les valeurs de la requête et sont aussi insérées dans l'URL
@@ -94,7 +96,7 @@ class CreatorController extends Controller {
 		$creator->save();
 
 		//Un message 200 qui signifie que la requête a fonctionné est renvoyé
-		return response()->json(['message' => 'Le creator a été mis à jour'], 200);
+		return response()->json(['message' => 'This creator has been updated.'], 200);
 	}
 
 	/**
@@ -112,7 +114,7 @@ class CreatorController extends Controller {
 		//S'il n'est pas trouvé alors un message d'erreur 404 est renvoyé
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist.', 'code' => 404], 404);
 		}
 
 		$animals = $creator->polygonalanimals;
@@ -120,14 +122,14 @@ class CreatorController extends Controller {
 		if(sizeof($animals) > 0){
 
 			//Le code d'erreur 409 signifie qu'une restriction empêche l'aboutissement de la requête
-			return response()->json(['message' => 'Ce Creator a des animaux associés. Veuillez les supprimez avant', 'code' => 409], 409);
+			return response()->json(['message' => 'This creator has associated animals. Please delete them first.', 'code' => 409], 409);
 
 		}
 
 		$creator->delete();
 
 		//Un message 200 qui signifie que la requête a fonctionné est renvoyé
-		return response()->json(['message' => 'Le creator a été supprimé'], 200);
+		return response()->json(['message' => 'This creator has been deleted.'], 200);
 
 	}
 }

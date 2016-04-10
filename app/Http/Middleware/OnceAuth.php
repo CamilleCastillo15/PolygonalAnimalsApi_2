@@ -37,7 +37,7 @@ class OnceAuth  {
 		$fails = $this->auth->onceBasic();
 		if($fails)
 		{
-			return response()->json(['message' => 'Vous n\'avez pas accès à ce type de requêtes', 'code' => 401], 401);
+			return response()->json(['message' => utf8_encode('You can\'t access this kind of requests.'), 'code' => 401], 401);
 		}
 		return  $next($request);
 	}

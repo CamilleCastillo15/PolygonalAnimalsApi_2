@@ -17,11 +17,11 @@ class CreatorPolygonalAnimalsController extends Controller {
 	 * @return Response
 	 */
 
-	public function __construct(){
+	/*public function __construct(){
 
 		$this->middleware('auth.basis.once', ['except' => ['index', 'show']]);
 
-	}
+	}*/
 
 	//Cette fonction retourne tous les animaux associé à un creator
 	public function index($id)
@@ -30,7 +30,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist', 'code' => 404], 404);
 		}
 		return response()->json(['data' => $creator->polygonalanimals], 200);
 	}
@@ -48,7 +48,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 		//Si le creator identifié par son id n'existe pas, il ne sera pas possible de créer un animal
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist', 'code' => 404], 404);
 		}
 
 		$values = $request->all();
@@ -56,7 +56,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 		//On se sert de la fonction polygonalanimals() du model de Creator pour créer un animal qui dépendera d'un creator
 		$creator->polygonalanimals()->create($values);
 
-		return response()->json(['message' => 'L\'animal associe a été crée'], 201);
+		return response()->json(['message' => 'Associated animal has been created.'], 201);
 	}
 	/**
 	 * Display the specified resource.
@@ -71,14 +71,14 @@ class CreatorPolygonalAnimalsController extends Controller {
 
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist.', 'code' => 404], 404);
 		}
 
 		$polygonalanimal = $creator->polygonalanimals->find($animalId);
 
 		if(!$polygonalanimal)
 		{
-			return response()->json(['message' => 'Cet animal n\'existe pas pour ce creator', 'code' => 404], 404);
+			return response()->json(['message' => 'This animal doesn\'t exist for this creator.', 'code' => 404], 404);
 		}
 		
 		return response()->json(['data' => $polygonalanimal], 200);
@@ -97,14 +97,14 @@ class CreatorPolygonalAnimalsController extends Controller {
 
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist', 'code' => 404], 404);
 		}
 
 		$animal = $creator->polygonalanimals->find($animalId);
 
 		if(!$animal)
 		{
-			return response()->json(['message' => 'Cet animal n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This animal doesn\'t exist.', 'code' => 404], 404);
 		}
 		$color = $request->get('color');
 		$price = $request->get('price');
@@ -114,7 +114,7 @@ class CreatorPolygonalAnimalsController extends Controller {
 
 		$animal->save();
 
-		return response()->json(['message' => 'L\'animal a été mis à jour'], 200);
+		return response()->json(['message' => 'This animal has been updated.'], 200);
 	}
 	/**
 	 * Remove the specified resource from storage.
@@ -128,18 +128,18 @@ class CreatorPolygonalAnimalsController extends Controller {
 		
 		if(!$creator)
 		{
-			return response()->json(['message' => 'Ce creator n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This creator doesn\'t exist.', 'code' => 404], 404);
 		}
 
 		$animal = $creator->polygonalanimals->find($animalId);
 
 		if(!$animal)
 		{
-			return response()->json(['message' => 'Cet animal n\'existe pas', 'code' => 404], 404);
+			return response()->json(['message' => 'This animal doesn\'t exist.', 'code' => 404], 404);
 		}
 
 		$animal->delete();
 
-		return response()->json(['message' => 'L\'animal a été supprimé'], 200);
+		return response()->json(['message' => 'This animal has been deleted.'], 200);
 	}
 }
